@@ -1,9 +1,9 @@
 <template>
   <div id="app">
 
-    <Header/>
+    <Header @sendSearch="collectSearch"/>
 
-    <Main/>
+    <Main :query="stringToSearch"/>
 
   </div>
 </template>
@@ -18,11 +18,25 @@ export default {
   components: {
     Main,
     Header
+  },
+  data() {
+    return {
+      stringToSearch: ''
+    }
+  },
+  methods: {
+    collectSearch(string) {
+      // console.log('string in app', string);
+      this.stringToSearch = string;
+    }
   }
 }
 </script>
 
 <style lang="scss">
 
+@import './assets/style/generals.scss';
+// @import './assets/style/mixins.scss';
 
+  
 </style>

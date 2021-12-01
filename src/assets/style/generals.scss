@@ -1,5 +1,12 @@
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~@fontsource/bebas-neue/index.css';
+@import './vars.scss';
+
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
 
 body {
    font-family: $font-stack;

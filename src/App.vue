@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 
-    <Header @sendSearch="collectSearch()"/>
+    <Header @sendSearch="collectSearch"/>
 
     <Main :films="films"/>
 
@@ -38,7 +38,7 @@ export default {
     getApi() {
 
          this.isLoading = true;
-         
+
          axios.get(this.apiURL, {
             params: {
                api_key: '8a381874b7779b2d846cc51434cc20f4',

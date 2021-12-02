@@ -1,9 +1,10 @@
 <template>
    <main>
 
+      <!-- FILMs -->
       <div class="movies">
          <ul
-            v-for="(film) in films"
+            v-for="(film) in contents.movie"
             :key="film.id"
          >
             <li>Titolo: {{ film.title }}</li>
@@ -23,8 +24,27 @@
          </ul>
       </div>
 
+      <!-- SERIE TVs -->
       <div class="tv-series">
-
+         <ul
+            v-for="(serie) in contents.tv"
+            :key="serie.id"
+         >
+            <li>Titolo: {{ serie.title }}</li>
+            <li>Titolo originale: {{ serie.original_title }}</li>
+            <li>Lingua: 
+               <img 
+                  class="original-language"
+                  v-if="checkLanguage(serie) !== ''"
+                  :src="checkLanguage(serie)" 
+                  :alt="serie.original_language"
+               >
+               <span v-else>
+                  {{ serie.original_language }}
+               </span>
+            </li>
+            <li>Voto: {{ serie.vote_average }}</li>
+         </ul>
       </div>
 
    </main>
@@ -34,13 +54,12 @@
 export default {
    name: 'Main',
    props: {
-      films: Array,
-      tvSeries: Array
+      contents: Object
    },
    methods: {
-      checkLanguage(movie) {
+      checkLanguage(content) {
 
-         const language = movie.original_language;
+         const language = content.original_language;
          let imgPath = '';
          
          if (language.toLowerCase().includes('it')) return imgPath = require('../assets/img/it.png');
@@ -60,20 +79,29 @@ export default {
       height: calc(100vh - 60px);
       color: #fff;
 
-      display: flex;
-      flex-wrap: wrap;
-
       background-color: #181818;
       overflow: auto;
 
-      ul {
-         padding: 0;
-         margin: 20px;
-         background-color: grey; //da rimuovere
+      .movies {
+                     display: flex;
+            flex-wrap: wrap; 
+         ul {
+            padding: 0;
+            margin: 20px;
+            background-color: grey; //da rimuovere
 
-         .original-language {
-            width: 20px;
          }
+      }
+      .tv-series {
+                     display: flex;
+            flex-wrap: wrap; 
+         ul {
+            background-color: teal; //da rimuovere
+         }
+      }
+
+      .original-language {
+         width: 20px;
       }
    }
 </style>

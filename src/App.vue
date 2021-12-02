@@ -3,7 +3,7 @@
 
     <Header @sendSearch="collectSearch"/>
 
-    <Main :films="films" :tvSeries="tvSeries"/>
+    <Main :contents="contents"/>
 
   </div>
 </template>
@@ -23,9 +23,7 @@ export default {
   data() {
     return {
       query: '',
-      // typeOfContent: 'movie'
-      films: [],
-      tvSeries: [],
+      contents: {},
       apiURL: 'https://api.themoviedb.org/3/search/',
       isLoading: false
     }
@@ -35,10 +33,10 @@ export default {
 
       this.query = string;
       //chiamata Api
-      this.getApi('movie', this.films);
-      this.getApi('tv', this.tvSeries);
+      this.getApi('movie');
+      this.getApi('tv');
     },
-    getApi(typeOfContent, contents) {
+    getApi(typeOfContent) {
 
       this.isLoading = true;
       
@@ -49,9 +47,9 @@ export default {
         }
       })
         .then(r => {
-          //  console.log(this.query);
-            contents = r.data.results;
-            console.log(this.films);
+            console.log('typeOfContent', typeOfContent);
+            this.contents[typeOfContent] = r.data.results;
+            console.log('film e serie', this.contents);
             //caricamento completato
             this.isLoading = false
         })

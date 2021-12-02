@@ -23,8 +23,9 @@ export default {
   data() {
     return {
       query: '',
+      // typeOfContent: 'movie'
       films: [],
-      apiURL: 'https://api.themoviedb.org/3/search/movie',
+      apiURL: 'https://api.themoviedb.org/3/search/',
       isLoading: false
     }
   },
@@ -33,13 +34,14 @@ export default {
 
       this.query = string;
       //chiamata Api
-      this.getApi();
+      this.getApi('movie');
+      this.getApi('tv');
     },
-    getApi() {
+    getApi(typeOfContent) {
 
          this.isLoading = true;
 
-         axios.get(this.apiURL, {
+         axios.get(this.apiURL + typeOfContent, {
             params: {
                api_key: '8a381874b7779b2d846cc51434cc20f4',
                query: this.query

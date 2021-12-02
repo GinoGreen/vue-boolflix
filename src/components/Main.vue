@@ -1,24 +1,32 @@
 <template>
    <main>
-      <ul
-         v-for="(film) in films"
-         :key="film.id"
-      >
-         <li>Titolo: {{ film.title }}</li>
-         <li>Titolo originale: {{ film.original_title }}</li>
-         <li>Lingua: 
-            <img 
-               class="original-language"
-               v-if="checkLanguage(film) !== ''"
-               :src="checkLanguage(film)" 
-               :alt="film.original_language"
-            >
-            <span v-else>
-               {{ film.original_language }}
-            </span>
-         </li>
-         <li>Voto: {{ film.vote_average }}</li>
-      </ul>
+
+      <div class="movies">
+         <ul
+            v-for="(film) in films"
+            :key="film.id"
+         >
+            <li>Titolo: {{ film.title }}</li>
+            <li>Titolo originale: {{ film.original_title }}</li>
+            <li>Lingua: 
+               <img 
+                  class="original-language"
+                  v-if="checkLanguage(film) !== ''"
+                  :src="checkLanguage(film)" 
+                  :alt="film.original_language"
+               >
+               <span v-else>
+                  {{ film.original_language }}
+               </span>
+            </li>
+            <li>Voto: {{ film.vote_average }}</li>
+         </ul>
+      </div>
+
+      <div class="tvSeries">
+
+      </div>
+      
    </main>
 </template>
 
@@ -32,11 +40,12 @@ export default {
       checkLanguage(movie) {
 
          const language = movie.original_language;
+         let imgPath = '';
          
-         if (language.toLowerCase().includes('it')) return '../assets/img/it.png';
-         if (language.toLowerCase().includes('en')) return '../assets/img/en.png';
+         if (language.toLowerCase().includes('it')) return imgPath = require('../assets/img/it.png');
+         if (language.toLowerCase().includes('en')) return imgPath = require('../assets/img/en.png');
          // altrimenti
-         return '';
+         return imgPath;
       }
    }
 }
@@ -62,7 +71,7 @@ export default {
          background-color: grey; //da rimuovere
 
          .original-language {
-            width: 30px;
+            width: 20px;
          }
       }
    }

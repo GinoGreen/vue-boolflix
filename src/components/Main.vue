@@ -4,7 +4,7 @@
       <!-- FILMs -->
       <div class="movies">
          <ul
-            v-for="(film) in contents.movie"
+            v-for="(film) in contentsLoaded('movie')"
             :key="film.id"
          >
             <li>Titolo: {{ film.title }}</li>
@@ -27,11 +27,10 @@
       <!-- SERIE TVs -->
       <div class="tv-series">
          <ul
-            v-for="(serie) in contents.tv"
+            v-for="(serie) in contentsLoaded('tv')"
             :key="serie.id"
          >
-            <li>Titolo: {{ serie.title }}</li>
-            <li>Titolo originale: {{ serie.original_title }}</li>
+            <li>Titolo: {{ serie.name }}</li>
             <li>Lingua: 
                <img 
                   class="original-language"
@@ -61,11 +60,17 @@ export default {
 
          const language = content.original_language;
          let imgPath = '';
-         
+         console.log('language', this.contents);
          if (language.toLowerCase().includes('it')) return imgPath = require('../assets/img/it.png');
          if (language.toLowerCase().includes('en')) return imgPath = require('../assets/img/en.png');
          // altrimenti
          return imgPath;
+      }
+   },
+   computed: {
+      contentsLoaded(content) {
+         if (content === 'movie') return this.contents.movie;
+         return this.contents.tv;
       }
    }
 }
@@ -96,6 +101,8 @@ export default {
                      display: flex;
             flex-wrap: wrap; 
          ul {
+            padding: 0;
+            margin: 20px;
             background-color: teal; //da rimuovere
          }
       }

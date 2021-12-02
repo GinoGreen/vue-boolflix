@@ -47,9 +47,15 @@ export default {
         }
       })
         .then(r => {
+
             console.log('typeOfContent', typeOfContent);
+
             this.contents[typeOfContent] = r.data.results;
+
             console.log('film e serie', this.contents);
+            console.log('film', this.contents.movie);
+            console.log('tv', this.contents.tv);
+
             //caricamento completato
             this.isLoading = false
         })

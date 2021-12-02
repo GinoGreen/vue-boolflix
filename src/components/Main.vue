@@ -3,36 +3,52 @@
 
       <!-- FILMs -->
       <div class="movies">
-         <h2>Film</h2>
-         
+         <div class="title">
+            <h2 class="fw-bold">Film</h2>
+            <p>Romantici, divertenti, drammatici, horror e tanto altro: solo i film sanno suscitare così tante emozioni. Un'ampia scelta di titoli per avventure infinite.</p>
+         </div>
+         <div class="myContainer">
+            <Card 
+               v-for="movie in contents.movie"
+               :key="movie.id"
+               :content="movie"
+               :type="types.movie"
+            />
+         </div>
       </div>
 
       <!-- SERIE TVs -->
-      <div class="tv-series myContainer">
-         <h2>Serie TV</h2>
-         
+      <div class="tv-series">
+         <div class="title">
+            <h2 class="fw-bold">Serie TV</h2>
+            <p>Oggi il piccolo schermo ha grandi cose da offrire: dalle sitcom ai drammi passando per i talk show, ecco i migliori programmi televisivi.</p>
+         </div>
+         <div class="myContainer">
+            <Card 
+               v-for="tv in contents.tv"
+               :key="tv.id"
+               :content="tv"
+               :type="types.tv"
+            />
+         </div>
       </div>
 
    </main>
 </template>
 
 <script>
+import Card from './Card.vue';
 export default {
+   components: {
+      Card
+   },
    name: 'Main',
    props: {
-      contents: Object
+      contents: Object,
+      types: Object
    },
    methods: {
-      checkLanguage(content) {
-
-         const language = content.original_language;
-         let imgPath = '';
-
-         if (language.toLowerCase().includes('it')) return imgPath = require('../assets/img/it.png');
-         if (language.toLowerCase().includes('en')) return imgPath = require('../assets/img/en.png');
-         // altrimenti
-         return imgPath;
-      }
+      
    }
 }
 </script>
@@ -43,17 +59,32 @@ export default {
 
    main {
       height: calc(100vh - 60px);
-      padding: 20px;
+      padding: 0 60px;
       color: #fff;
 
       background-color: #181818;
       overflow: auto;
 
-      
-      .movies, 
-      .tv-series {
-         display: flex;
-         flex-wrap: wrap; 
+      .title {
+         width: 800px;
+
+         h2 {
+            margin: 30px 0;
+            font-size: 3rem;
+         }
+
+         p {
+            margin-bottom: 60px;
+            font-size: 1.5rem;
+         }
       }
+
+      .myContainer {
+         margin-bottom: 100px;
+         padding: 30px 0;
+         @include center('align');
+         overflow-x: hidden;
+      }
+      
    }
 </style>

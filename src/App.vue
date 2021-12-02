@@ -3,7 +3,10 @@
 
     <Header @sendSearch="collectSearch"/>
 
-    <Main :contents="contents"/>
+    <Main 
+      :contents="contents"
+      :types="types"
+    />
 
   </div>
 </template>
@@ -59,7 +62,7 @@ export default {
 
             this.contents[typeOfContent] = r.data.results;
 
-            // console.log('film e serie', this.contents);
+            console.log('film e serie', this.contents);
             // console.log('film', this.contents.movie);
             // console.log('tv', this.contents.tv);
 

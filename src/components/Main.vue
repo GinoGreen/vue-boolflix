@@ -23,10 +23,10 @@
          </ul>
       </div>
 
-      <div class="tvSeries">
+      <div class="tv-series">
 
       </div>
-      
+
    </main>
 </template>
 
@@ -34,7 +34,8 @@
 export default {
    name: 'Main',
    props: {
-      films: Array
+      films: Array,
+      tvSeries: Array
    },
    methods: {
       checkLanguage(movie) {

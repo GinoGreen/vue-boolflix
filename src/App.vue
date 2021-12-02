@@ -3,7 +3,7 @@
 
     <Header @sendSearch="collectSearch"/>
 
-    <Main :films="films"/>
+    <Main :films="films" :tvSeries="tvSeries"/>
 
   </div>
 </template>
@@ -25,6 +25,7 @@ export default {
       query: '',
       // typeOfContent: 'movie'
       films: [],
+      tvSeries: [],
       apiURL: 'https://api.themoviedb.org/3/search/',
       isLoading: false
     }
@@ -34,29 +35,29 @@ export default {
 
       this.query = string;
       //chiamata Api
-      this.getApi('movie');
-      this.getApi('tv');
+      this.getApi('movie', this.films);
+      this.getApi('tv', this.tvSeries);
     },
-    getApi(typeOfContent) {
+    getApi(typeOfContent, contents) {
 
-         this.isLoading = true;
-
-         axios.get(this.apiURL + typeOfContent, {
-            params: {
-               api_key: '8a381874b7779b2d846cc51434cc20f4',
-               query: this.query
-            }
-         })
-            .then(r => {
-              //  console.log(this.query);
-               this.films = r.data.results;
-               console.log(this.films);
-               //caricamento completato
-               this.isLoading = false
-            })
-            .catch(e => {
-              console.log(e);
-            });
+      this.isLoading = true;
+      
+      axios.get(this.apiURL + typeOfContent, {
+        params: {
+            api_key: '8a381874b7779b2d846cc51434cc20f4',
+            query: this.query
+        }
+      })
+        .then(r => {
+          //  console.log(this.query);
+            contents = r.data.results;
+            console.log(this.films);
+            //caricamento completato
+            this.isLoading = false
+        })
+        .catch(e => {
+          console.log(e);
+        });
     }
   }
 }

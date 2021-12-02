@@ -23,7 +23,14 @@ export default {
   data() {
     return {
       query: '',
-      contents: {},
+      types: {
+        movie: 'movie',
+        tv: 'tv'
+      },
+      contents: {
+        movie: [],
+        tv: []
+      },
       apiURL: 'https://api.themoviedb.org/3/search/',
       isLoading: false
     }
@@ -33,8 +40,8 @@ export default {
 
       this.query = string;
       //chiamata Api
-      this.getApi('movie');
-      this.getApi('tv');
+      this.getApi(this.types.movie);
+      this.getApi(this.types.tv);
     },
     getApi(typeOfContent) {
 
@@ -52,9 +59,9 @@ export default {
 
             this.contents[typeOfContent] = r.data.results;
 
-            console.log('film e serie', this.contents);
-            console.log('film', this.contents.movie);
-            console.log('tv', this.contents.tv);
+            // console.log('film e serie', this.contents);
+            // console.log('film', this.contents.movie);
+            // console.log('tv', this.contents.tv);
 
             //caricamento completato
             this.isLoading = false

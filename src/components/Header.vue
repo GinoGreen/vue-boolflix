@@ -40,6 +40,7 @@ export default {
       justify-content: space-between;
 
       .logo {
+         font-size: 1.7rem;
          color: $logo-color;
       }
    }

@@ -1,7 +1,7 @@
 <template>
    <main>
       <ul
-         v-for="(film) in getSearch"
+         v-for="(film) in films"
          :key="film.id"
       >
          <li>Titolo: {{ film.title }}</li>
@@ -13,51 +13,17 @@
 </template>
 
 <script>
-
-import axios from 'axios';
-
 export default {
    name: 'Main',
    props: {
-      query: String
+      films: Array
    },
    data() {
       return {
-         films: [],
-         isLoading: false
       }
    },
    methods: {
-      async getApi() {
-         this.isLoading = true;
-         axios.get('https://api.themoviedb.org/3/search/movie', {
-            params: {
-               api_key: '8a381874b7779b2d846cc51434cc20f4',
-               query: this.query
-            }
-         })
-            .then(r => {
-               console.log(r);
-               this.films = r.data.results;
-               console.log(this.films);
-               this.isLoading = false
-            })
-            .catch(e => {
-               console.log(e);
-            });
-      }
       
-   },
-   computed: {
-      
-      getSearch() {
-         if (this.query === '') return this.films;
-         console.log(this.query);
-         this.getApi();
-         return this.films;
-      }
-   },
-   mounte() {
    }
 }
 </script>

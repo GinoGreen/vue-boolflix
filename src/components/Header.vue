@@ -1,9 +1,14 @@
 <template>
    <header>
 
-      <p class="logo m-0">BOOLFLIX</p>
+      <img src="../assets/img/boolflix-logo.png" class="logo" alt="boolflix logo">
 
-      <div class="search-bar">
+      <div class="search-bar d-flex">
+         <button 
+            class="btn"
+            @click="$emit('sendSearch', stringToSearch)"
+         > Cerca
+         </button>
          <input 
             v-model="stringToSearch"
             @keyup.enter="$emit('sendSearch', stringToSearch)"
@@ -41,8 +46,21 @@ export default {
       justify-content: space-between;
 
       .logo {
-         font-size: 1.7rem;
+         width: 170px;
          color: $logo-color;
+         cursor: pointer;
+      }
+
+      .search-bar {
+         width: 500px;
+
+         button {
+            width: 200px;
+            margin: 0 20px;
+            color: #fff;
+            font-weight: bold;
+            background-color: $logo-color;
+         }
       }
    }
 </style>

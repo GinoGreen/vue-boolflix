@@ -83,7 +83,7 @@ export default {
 .flip-card {
    margin-right: 40px;
    background-color: transparent;
-   width: 200px;
+   width: 200px !important;
    height: 300px;
    perspective: 1000px;
    flex-shrink: 0;

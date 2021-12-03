@@ -28,7 +28,8 @@ export default {
       query: '',
       types: {
         movie: 'movie',
-        tv: 'tv'
+        tv: 'tv',
+        default: 'popular'
       },
       contents: {
         movie: [],
@@ -73,6 +74,9 @@ export default {
           console.log(e);
         });
     }
+  },
+  mounted() {
+    this.getApi();
   }
 }
 </script>

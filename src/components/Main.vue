@@ -8,14 +8,22 @@
             <p class="m-0">Romantici, divertenti, drammatici, horror e tanto altro: solo i film sanno suscitare così tante emozioni. Un'ampia scelta di titoli per avventure infinite.</p>
          </div>
          <div class="myContainer">
-            <Card 
-               v-for="movie in contents.movie"
-               :key="movie.id"
-               :content="movie"
-               :type="types.movie"
-            />
-            <button class="btn-right">
-               <span class="arrow">&#8250;</span>
+            <button @click="showPrev('movie')" class="btn-left">
+               <span class="arrow left">&#8249;</span>
+            </button>
+            <VueSlickCarousel 
+               v-bind="settings"
+               ref="carouselMovie"
+            >
+               <Card 
+                  v-for="movie in contents.movie"
+                  :key="movie.id"
+                  :content="movie"
+                  :type="types.movie"
+               />
+            </VueSlickCarousel>
+            <button @click="showNext('movie')" class="btn-right">
+               <span class="arrow right">&#8250;</span>
             </button>
          </div>
       </div>
@@ -27,15 +35,24 @@
             <p class="m-0">Oggi il piccolo schermo ha grandi cose da offrire: dalle sitcom ai drammi passando per i talk show, ecco i migliori programmi televisivi.</p>
          </div>
          <div class="myContainer">
-            <Card 
-               v-for="tv in contents.tv"
-               :key="tv.id"
-               :content="tv"
-               :type="types.tv"
-            />
-            <button class="btn-right">
-               <span class="arrow">&#8250;</span>
+            <button @click="showPrev('tv')" class="btn-left">
+               <span class="arrow left">&#8249;</span>
             </button>
+            <VueSlickCarousel 
+               v-bind="settings"
+               ref="carouselTv"
+            >
+               <Card 
+                  v-for="tv in contents.tv"
+                  :key="tv.id"
+                  :content="tv"
+                  :type="types.tv"
+               />
+            </VueSlickCarousel>
+            <button @click="showNext('tv')" class="btn-right">
+               <span class="arrow right">&#8250;</span>
+            </button>
+
          </div>
       </div>
 
@@ -44,17 +61,43 @@
 
 <script>
 import Card from './Card.vue';
+import VueSlickCarousel from 'vue-slick-carousel'
+import 'vue-slick-carousel/dist/vue-slick-carousel.css'
+ import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 export default {
    components: {
-      Card
+      Card,
+      VueSlickCarousel
    },
    name: 'Main',
    props: {
       contents: Object,
       types: Object
    },
+   data() {
+      return {
+         settings: {
+            "dots": false,
+            "focusOnSelect": true,
+            "infinite": true,
+            "speed": 500,
+            "slidesToShow": 3,
+            "slidesToScroll": 3,
+            "touchThreshold": 0,
+            "variableWidth": true,
+            "variableHeight": true
+         }
+      }
+   },
    methods: {
-      
+      showNext(type) {
+         if (type === 'movie') this.$refs.carouselMovie.next();
+         else this.$refs.carouselTv.next();
+      },
+      showPrev(type) {
+         if (type === 'movie') this.$refs.carouselMovie.prev();
+         else this.$refs.carouselTv.prev();
+      },
    }
 }
 </script>
@@ -83,39 +126,63 @@ export default {
 
       .myContainer {
          max-width: 100%;
-         padding: 70px 0;
+         height: 400px;
          @include center('align');
          overflow-x: hidden;
          position: relative;
+
+         .slick-slider.slick-initialized,
+         .slick-list {
+            height: 100% !important;
+            @include center('align');
+         }
       }
 
-      .btn-right {
+      .btn-right,
+      .btn-left {
          height: 100%;
          width: 100px;
          position: absolute;
-         right: 0px;
-         
+
          border: none;
          background-color: transparent;
-         background-image: linear-gradient(to left,#181818 10%,rgba(24,24,24,0));
 
+         z-index: 200;
 
          &:hover .arrow {
             font-size: 5rem;
 
          }
-         .arrow {
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translate(-50%, -50%);
 
-            color: $logo-color;
-            font-size: 3rem;
+      }
+
+      .arrow {
+         position: absolute;
+         top: 50%;
+
+         color: $logo-color;
+         font-size: 3rem;
 
 
-            transition: all 0.4s;
+         transition: all 0.4s;
+         
+         &.left {
+            left: 0;
+            transform: translate(50%, -50%);
          }
+         &.right {
+            right: 0;
+            transform: translate(-50%, -50%);
+         }
+      }
+
+      .btn-right {
+         right: 0px;
+         background-image: linear-gradient(to left,#181818 10%,rgba(24,24,24,0));
+      }
+      .btn-left {
+         left: 0px;
+         background-image: linear-gradient(to right,#181818 10%,rgba(24,24,24,0));
       }
       
    }

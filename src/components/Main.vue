@@ -1,78 +1,82 @@
 <template>
    <main>
 
-      <!-- FILMs -->
-      <div v-if="contents.movie.length > 0" class="movies">
+      <Loading v-if="isLoading" />
 
-         <div class="title">
-            <div v-if="firstCall"> <!--prima chiamata axios -->
-               <h2 class="fw-bold">Film popolari</h2>
-               <p class="m-0">Romantici, divertenti, drammatici, horror e tanto altro: solo i film sanno suscitare così tante emozioni. Un'ampia scelta di titoli per avventure infinite.</p>
+      <section v-else class="contents">
+         <!-- FILMs -->
+         <div v-if="contents.movie.length > 0" class="movies">
+
+            <p v-if="!firstCall" class="caption-searched text-end">Risultati per <strong>"{{ stringSearched }}"</strong></p>
+
+            <div class="title">
+               <div v-if="firstCall"> <!--prima chiamata axios -->
+                  <h2 class="fw-bold">Film popolari</h2>
+                  <p class="m-0">Romantici, divertenti, drammatici, horror e tanto altro: solo i film sanno suscitare così tante emozioni. Un'ampia scelta di titoli per avventure infinite.</p>
+               </div>
+               <div v-else> <!--dopo la prima ricerca -->
+                  <h2 class="fw-bold">Film</h2>
+               </div>
             </div>
-            <div v-else> <!--dopo la prima ricerca -->
-               <h2 class="fw-bold">Film</h2>
-               <p class="caption-searched">Risultati per <strong>"{{ stringSearched }}"</strong></p>
+
+            <div class="myContainer">
+               <button @click="showPrev('movie')" class="btn-left">
+                  <span class="arrow left">&#8249;</span>
+               </button>
+               <VueSlickCarousel 
+                  v-bind="settings"
+                  ref="carouselMovie"
+               >
+                  <Card 
+                     v-for="movie in contents.movie"
+                     :key="movie.id"
+                     :content="movie"
+                     :type="types.movie"
+                  />
+               </VueSlickCarousel>
+               <button @click="showNext('movie')" class="btn-right">
+                  <span class="arrow right">&#8250;</span>
+               </button>
             </div>
-         </div>
-
-         <div class="myContainer">
-            <button @click="showPrev('movie')" class="btn-left">
-               <span class="arrow left">&#8249;</span>
-            </button>
-            <VueSlickCarousel 
-               v-bind="settings"
-               ref="carouselMovie"
-            >
-               <Card 
-                  v-for="movie in contents.movie"
-                  :key="movie.id"
-                  :content="movie"
-                  :type="types.movie"
-               />
-            </VueSlickCarousel>
-            <button @click="showNext('movie')" class="btn-right">
-               <span class="arrow right">&#8250;</span>
-            </button>
-         </div>
-
-      </div>
-
-      <!-- SERIE TVs -->
-      <div v-if="contents.tv.length > 0" class="tv-series">
-
-         <div class="title">
-            <div v-if="firstCall"> <!--prima chiamata axios -->
-               <h2 class="fw-bold">Serie TV Popolari</h2>
-               <p class="m-0">Oggi il piccolo schermo ha grandi cose da offrire: dalle sitcom ai drammi passando per i talk show, ecco i migliori programmi televisivi.</p>
-            </div>
-            <div v-else> <!--dopo la prima ricerca -->
-               <h2 class="fw-bold">Serie TV</h2>
-               <p class="caption-searched">Risultati per <strong>"{{ stringSearched }}"</strong></p>
-            </div>
-         </div>
-
-         <div class="myContainer">
-            <button @click="showPrev('tv')" class="btn-left">
-               <span class="arrow left">&#8249;</span>
-            </button>
-            <VueSlickCarousel 
-               v-bind="settings"
-               ref="carouselTv"
-            >
-               <Card 
-                  v-for="tv in contents.tv"
-                  :key="tv.id"
-                  :content="tv"
-                  :type="types.tv"
-               />
-            </VueSlickCarousel>
-            <button @click="showNext('tv')" class="btn-right">
-               <span class="arrow right">&#8250;</span>
-            </button>
 
          </div>
 
-      </div>
+         <!-- SERIE TVs -->
+         <div v-if="contents.tv.length > 0" class="tv-series">
+
+            <div class="title">
+               <div v-if="firstCall"> <!--prima chiamata axios -->
+                  <h2 class="fw-bold">Serie TV Popolari</h2>
+                  <p class="m-0">Oggi il piccolo schermo ha grandi cose da offrire: dalle sitcom ai drammi passando per i talk show, ecco i migliori programmi televisivi.</p>
+               </div>
+               <div v-else> <!--dopo la prima ricerca -->
+                  <h2 class="fw-bold">Serie TV</h2>
+               </div>
+            </div>
+
+            <div class="myContainer">
+               <button @click="showPrev('tv')" class="btn-left">
+                  <span class="arrow left">&#8249;</span>
+               </button>
+               <VueSlickCarousel 
+                  v-bind="settings"
+                  ref="carouselTv"
+               >
+                  <Card 
+                     v-for="tv in contents.tv"
+                     :key="tv.id"
+                     :content="tv"
+                     :type="types.tv"
+                  />
+               </VueSlickCarousel>
+               <button @click="showNext('tv')" class="btn-right">
+                  <span class="arrow right">&#8250;</span>
+               </button>
+
+            </div>
+
+         </div>
+      </section>
 
    </main>
 </template>
@@ -83,11 +87,13 @@ import Card from './Card.vue';
 import VueSlickCarousel from 'vue-slick-carousel'
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
 import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
+import Loading from './Loading.vue';
 
 export default {
    components: {
       Card,
-      VueSlickCarousel
+      VueSlickCarousel,
+      Loading
    },
    name: 'Main',
    props: {
@@ -103,7 +109,7 @@ export default {
             "focusOnSelect": true,
             "infinite": true,
             "speed": 500,
-            "slidesToShow": 3,
+            "slidesToShow": 1,
             "slidesToScroll": 3,
             "touchThreshold": 0,
             "variableWidth": true,
@@ -138,16 +144,17 @@ export default {
       background-color: #181818;
       overflow: auto;
 
+      .caption-searched {
+         font-size: 1.4rem;
+      }
       .title {
          width: 45%;
 
          h2 {
             font-size: 3rem;
          }
-         .caption-searched {
-            font-size: 1.4rem;
-         }
       }
+      
 
       .myContainer {
          max-width: 100%;
@@ -176,9 +183,7 @@ export default {
 
          &:hover .arrow {
             font-size: 5rem;
-
          }
-
       }
 
       .arrow {
@@ -187,7 +192,6 @@ export default {
 
          color: $logo-color;
          font-size: 3rem;
-
 
          transition: all 0.4s;
          

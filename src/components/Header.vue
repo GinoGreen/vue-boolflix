@@ -7,7 +7,7 @@
          <button 
             class="btn"
             @click="$emit('sendSearch', stringToSearch)"
-         > Cerca
+         > Progni
          </button>
          <input 
             v-model="stringToSearch"

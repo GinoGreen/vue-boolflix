@@ -2,23 +2,40 @@
    <div class="flip-card">
       <div class="flip-card-inner">
          <div class="flip-card-front">
-            <!-- <img :src="getPoster()" alt="Poster" -->
+            <div v-if="content.poster_path === null" class="poster-placeholder">
+               <h3 class="mt-5 text-white">Poster non disponibile</h3>
+               <img src="../assets/img/placeholder.jpg" alt="placeholder not found">
+            </div>
+            <img v-else :src="getPoster()" alt="Poster">
          </div>
          <div class="flip-card-back">
-            <h3 v-if="type === 'movie'">{{ content.title }}</h3>
-            <h3 v-else>{{ content.name }}</h3>
-            <h4 v-if="type === 'movie'">{{ content.original_title }}</h4>
-            <p>
-               Lingua: 
-               <img 
-                  class="original-language"
-                  v-if="checkLanguage() !== ''"
-                  :src="checkLanguage()"
-                  :alt="content.original_language"
-               >
-               <span v-else>{{ content.original_language }}</span>
-            </p> 
-            <p>Voto: {{ content.vote_average }}</p>
+            <div class="info-topside">
+               <h5 v-if="type === 'movie'">{{ content.title }}</h5>
+               <h5 v-else>{{ content.name }}</h5>
+               <h5 v-if="type === 'movie'">{{ content.original_title }}</h5>
+               <h5 v-else>{{ content.original_name }}</h5>
+               <p>
+                  Lingua: 
+                  <img 
+                     class="original-language"
+                     v-if="checkLanguage() !== ''"
+                     :src="checkLanguage()"
+                     :alt="content.original_language"
+                  >
+                  <span v-else>{{ content.original_language }}</span>
+               </p> 
+               <p>Voto: 
+                  <i 
+                     v-for="(star, index) in MAX_STARS"
+                     :key="index"
+                     class="fa-star"
+                     :class="[index < getStars(content.vote_average) ? 'fas' : 'far']"
+                  ></i>
+               </p>
+            </div>
+            <div class="caption">
+               <p>{{ content.overview }}</p>
+            </div>
          </div>
       </div>
    </div>
@@ -33,7 +50,9 @@ export default {
    },
    data() {
       return {
-         imgURL: 'https://image.tmdb.org/t/p/w342/'
+         imgURL: 'https://image.tmdb.org/t/p/w342/',
+         composedImgURL: '',
+         MAX_STARS: 5
       }
    },
    methods: {
@@ -47,9 +66,10 @@ export default {
          return imgPath;
       },
       getPoster() {
-         // const composedImgURL = '';
-
-         // composedImgUrl = this.imgURL + this.content
+         return this.composedImgURL = this.imgURL + this.content.poster_path
+      },
+      getStars(n) {
+         return Math.round(n/2);
       }
    }
 }
@@ -58,14 +78,15 @@ export default {
 <style lang="scss">
 
 @import '../assets/style/mixins.scss';
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
 
 .flip-card {
-   margin-right: 30px;
+   margin-right: 40px;
    background-color: transparent;
-   width: 300px;
+   width: 200px;
    height: 300px;
    perspective: 1000px;
-         flex-shrink: 0;
+   flex-shrink: 0;
 
    &:hover .flip-card-inner {
       transform: rotateY(180deg);
@@ -80,6 +101,10 @@ export default {
       transform-style: preserve-3d;
       box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 
+      h5 {
+         font-size: 1.1em;
+      }
+
       .flip-card-front, .flip-card-back {
          position: absolute;
          width: 100%;
@@ -89,20 +114,43 @@ export default {
       }
 
       .flip-card-front {
-         background-color: #bbb;
+         background-color: #4D4D4D;
          color: black;
+
+         overflow: hidden;
+         
+         img {
+            height: 100%;
+         }
+
+         .poster-placeholder img {
+            width: 100%;
+         }
       }
 
       .flip-card-back {
-         background-color: #2980b9;
+         padding: 10px;
+         background-color: #2e3035;
          color: white;
          transform: rotateY(180deg);
 
-         @include center();
-         flex-direction: column;
+         i.fa-star {
+            color: #d1a640;
+         }
 
          .original-language {
             width: 20px;
+         }
+
+         .info-topside {
+            height: 50%;
+            overflow: auto;
+         }
+
+         .caption {
+            height: 50%;
+            overflow: auto;
+            text-align: start;
          }
       }
    }

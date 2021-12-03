@@ -9,6 +9,7 @@
             @keyup.enter="$emit('sendSearch', stringToSearch)"
             type="text" 
             class="form-control"
+            placeholder="Cerca..."
          >
       </div>
 

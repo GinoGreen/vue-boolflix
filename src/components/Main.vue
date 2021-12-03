@@ -3,10 +3,18 @@
 
       <!-- FILMs -->
       <div v-if="contents.movie.length > 0" class="movies">
+
          <div class="title">
-            <h2 class="fw-bold">Film</h2>
-            <p class="m-0">Romantici, divertenti, drammatici, horror e tanto altro: solo i film sanno suscitare così tante emozioni. Un'ampia scelta di titoli per avventure infinite.</p>
+            <div v-if="firstCall"> <!--prima chiamata axios -->
+               <h2 class="fw-bold">Film popolari</h2>
+               <p class="m-0">Romantici, divertenti, drammatici, horror e tanto altro: solo i film sanno suscitare così tante emozioni. Un'ampia scelta di titoli per avventure infinite.</p>
+            </div>
+            <div v-else> <!--dopo la prima ricerca -->
+               <h2 class="fw-bold">Film</h2>
+               <p class="caption-searched">Risultati per <strong>"{{ stringSearched }}"</strong></p>
+            </div>
          </div>
+
          <div class="myContainer">
             <button @click="showPrev('movie')" class="btn-left">
                <span class="arrow left">&#8249;</span>
@@ -26,14 +34,23 @@
                <span class="arrow right">&#8250;</span>
             </button>
          </div>
+
       </div>
 
       <!-- SERIE TVs -->
       <div v-if="contents.tv.length > 0" class="tv-series">
+
          <div class="title">
-            <h2 class="fw-bold">Serie TV</h2>
-            <p class="m-0">Oggi il piccolo schermo ha grandi cose da offrire: dalle sitcom ai drammi passando per i talk show, ecco i migliori programmi televisivi.</p>
+            <div v-if="firstCall"> <!--prima chiamata axios -->
+               <h2 class="fw-bold">Serie TV Popolari</h2>
+               <p class="m-0">Oggi il piccolo schermo ha grandi cose da offrire: dalle sitcom ai drammi passando per i talk show, ecco i migliori programmi televisivi.</p>
+            </div>
+            <div v-else> <!--dopo la prima ricerca -->
+               <h2 class="fw-bold">Serie TV</h2>
+               <p class="caption-searched">Risultati per <strong>"{{ stringSearched }}"</strong></p>
+            </div>
          </div>
+
          <div class="myContainer">
             <button @click="showPrev('tv')" class="btn-left">
                <span class="arrow left">&#8249;</span>
@@ -54,16 +71,19 @@
             </button>
 
          </div>
+
       </div>
 
    </main>
 </template>
 
 <script>
+
 import Card from './Card.vue';
 import VueSlickCarousel from 'vue-slick-carousel'
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
- import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
+import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
+
 export default {
    components: {
       Card,
@@ -72,7 +92,9 @@ export default {
    name: 'Main',
    props: {
       contents: Object,
-      types: Object
+      types: Object,
+      firstCall: Boolean,
+      stringSearched: String
    },
    data() {
       return {
@@ -121,6 +143,9 @@ export default {
 
          h2 {
             font-size: 3rem;
+         }
+         .caption-searched {
+            font-size: 1.4rem;
          }
       }
 

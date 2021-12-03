@@ -104,6 +104,9 @@ export default {
       h5 {
          font-size: 1.1em;
       }
+      p {
+         margin: 0;
+      }
 
       .flip-card-front, .flip-card-back {
          position: absolute;

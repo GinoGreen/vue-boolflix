@@ -6,6 +6,8 @@
     <Main 
       :contents="contents"
       :types="types"
+      :firstCall="firstCallAxios"
+      :stringSearched="query"
     />
 
   </div>
@@ -25,11 +27,11 @@ export default {
   },
   data() {
     return {
+      firstCallAxios: true,
       query: '',
       types: {
         movie: 'movie',
         tv: 'tv',
-        default: 'popular'
       },
       contents: {
         movie: [],
@@ -42,6 +44,9 @@ export default {
   methods: {
     collectSearch(string) {
 
+      // prima chiamata finita
+      this.firstCallAxios = false
+
       this.query = string;
       //chiamata Api
       this.getApi(this.types.movie);
@@ -50,8 +55,17 @@ export default {
     getApi(typeOfContent) {
 
       this.isLoading = true;
-      
-      axios.get(this.apiURL + typeOfContent, {
+
+      let composedApiURL = '';
+      //controllo prima chiamata
+      if (this.firstCallAxios) {
+        composedApiURL = `https://api.themoviedb.org/3/${typeOfContent}/popular`;
+      }
+      else {
+        composedApiURL = this.apiURL + typeOfContent;
+      }
+
+      axios.get(composedApiURL, {
         params: {
             api_key: '8a381874b7779b2d846cc51434cc20f4',
             query: this.query
@@ -76,7 +90,8 @@ export default {
     }
   },
   mounted() {
-    this.getApi();
+    this.getApi(this.types.movie);
+    this.getApi(this.types.tv);
   }
 }
 </script>

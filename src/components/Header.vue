@@ -6,16 +6,24 @@
       <div class="search-bar d-flex">
          <button 
             class="btn"
-            @click="$emit('sendSearch', stringToSearch)"
+            @click="$emit('sendSearch', stringToSearch, contentType)"
          > Cerca
          </button>
          <input 
             v-model="stringToSearch"
-            @keyup.enter="$emit('sendSearch', stringToSearch)"
+            @keyup.enter="$emit('sendSearch', stringToSearch, contentType)"
             type="text" 
             class="form-control"
             placeholder="Cerca..."
          >
+         <select 
+            class="form-select"
+            v-model="contentType"
+         >
+            <option value="all" selected>Tutti</option>
+            <option value="movie">Film</option>
+            <option value="tv">Serie TV</option>
+         </select>
       </div>
 
    </header>
@@ -26,7 +34,8 @@ export default {
    name: 'Header',
    data() {
       return {
-         stringToSearch: ''
+         stringToSearch: '',
+         contentType: 'all'
       }
    }
 }
@@ -60,6 +69,20 @@ export default {
             color: #fff;
             font-weight: bold;
             background-color: $logo-color;
+         }
+
+         input {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+         }
+         select {
+            max-width: 40px;
+            border: none;
+
+            // background-color: $logo-color;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            cursor: pointer;
          }
       }
    }

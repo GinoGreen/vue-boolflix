@@ -1,18 +1,31 @@
 <template>
-   <div>
-      <h4></h4>
+   <div id="loading">
       <div class="lds-hourglass"></div>
+      <h4>{{ titleLoader }}</h4>
    </div>
 </template>
 
 <script>
 export default {
-   name: 'Loading'
+   name: 'Loading',
+   props: {
+     titleLoader: String
+   }
 }
 </script>
 
 <style lang="scss">
 @import '../assets/style/vars.scss';
+@import '../assets/style/mixins.scss';
+
+  #loading {
+    @include center('align');
+    flex-direction: column;
+  }
+
+  h4 {
+    color: #fff;
+  }
 
 .lds-hourglass {
   display: inline-block;

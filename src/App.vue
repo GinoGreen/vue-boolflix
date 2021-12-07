@@ -8,6 +8,7 @@
       :types="types"
       :firstCall="firstCallAxios"
       :stringSearched="query"
+      :isLoading="isLoading"
     />
 
   </div>

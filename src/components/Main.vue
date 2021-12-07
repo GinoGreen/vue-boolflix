@@ -1,7 +1,19 @@
 <template>
    <main>
 
-      <Loading v-if="isLoading" />
+      <Loading 
+         v-if="isLoading" 
+         titleLoader="Caricamento contenuti..." 
+      />
+
+      <!-- nessun risultato -->
+      <div 
+         v-else-if="
+            contents.movie.length === 0 &&
+            contents.tv.length === 0
+         ">
+         <h1>Nessun risultato trovato per "{{ stringSearched }}"</h1>
+      </div>
 
       <section v-else class="contents">
          <!-- FILMs -->
@@ -20,7 +32,11 @@
             </div>
 
             <div class="myContainer">
-               <button @click="showPrev('movie')" class="btn-left">
+               <button 
+                  @click="showPrev('movie')"
+                  class="btn-left"
+                  v-if="contents.movie.length > 5"
+               >
                   <span class="arrow left">&#8249;</span>
                </button>
                <VueSlickCarousel 
@@ -34,7 +50,11 @@
                      :type="types.movie"
                   />
                </VueSlickCarousel>
-               <button @click="showNext('movie')" class="btn-right">
+               <button 
+                  @click="showNext('movie')" 
+                  class="btn-right"
+                  v-if="contents.movie.length > 5"
+               >
                   <span class="arrow right">&#8250;</span>
                </button>
             </div>
@@ -55,7 +75,11 @@
             </div>
 
             <div class="myContainer">
-               <button @click="showPrev('tv')" class="btn-left">
+               <button 
+                  @click="showPrev('tv')" 
+                  class="btn-left"
+                  v-if="contents.tv.length > 5"
+               >
                   <span class="arrow left">&#8249;</span>
                </button>
                <VueSlickCarousel 
@@ -69,7 +93,11 @@
                      :type="types.tv"
                   />
                </VueSlickCarousel>
-               <button @click="showNext('tv')" class="btn-right">
+               <button 
+                  @click="showNext('tv')" 
+                  class="btn-right"
+                  v-if="contents.tv.length > 5"
+               >
                   <span class="arrow right">&#8250;</span>
                </button>
 
@@ -100,14 +128,15 @@ export default {
       contents: Object,
       types: Object,
       firstCall: Boolean,
-      stringSearched: String
+      stringSearched: String,
+      isLoading: Boolean
    },
    data() {
       return {
          settings: {
             "dots": false,
             "focusOnSelect": true,
-            "infinite": true,
+            "infinite": false,
             "speed": 500,
             "slidesToShow": 1,
             "slidesToScroll": 3,
@@ -140,6 +169,8 @@ export default {
       height: calc(100vh - 60px);
       padding: 60px;
       color: #fff;
+
+      // @include center();
 
       background-color: #181818;
       overflow: auto;

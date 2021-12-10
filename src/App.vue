@@ -45,13 +45,16 @@ export default {
   methods: {
     collectSearch(string) {
 
-      // prima chiamata finita
-      this.firstCallAxios = false
+      if (string !== '') {
+        
+        // prima chiamata finita
+        this.firstCallAxios = false
 
-      this.query = string;
-      //chiamata Api
-      this.getApi(this.types.movie);
-      this.getApi(this.types.tv);
+        this.query = string;
+        //chiamata Api
+        this.getApi(this.types.movie);
+        this.getApi(this.types.tv);
+      }
     },
     getApi(typeOfContent) {
 

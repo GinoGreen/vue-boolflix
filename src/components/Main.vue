@@ -9,10 +9,8 @@
       <!-- nessun risultato -->
       <div 
          v-else-if="
-            contents.movie.length === 0 &&
-            contents.tv.length === 0 || 
-            stringSearched === '' && 
-            !firstCall
+            (contents.movie.length === 0 && contents.tv.length === 0) || 
+            (stringSearched === '' && !firstCall)
          ">
          <h1>Nessun risultato trovato per "{{ stringSearched }}"</h1>
       </div>

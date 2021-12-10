@@ -19,8 +19,9 @@
          <select 
             class="form-select"
             v-model="contentType"
+            @change="$emit('typeChanged', contentType)"
          >
-            <option value="all" selected>Tutti</option>
+            <option value="all">Tutti</option>
             <option value="movie">Film</option>
             <option value="tv">Serie TV</option>
          </select>

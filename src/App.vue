@@ -1,7 +1,10 @@
 <template>
   <div id="app">
 
-    <Header @sendSearch="collectSearch"/>
+    <Header 
+      @sendSearch="collectSearch"
+      @typeChanged="collectType"
+    />
 
     <Main 
       :contents="contents"
@@ -9,6 +12,7 @@
       :firstCall="firstCallAxios"
       :stringSearched="query"
       :isLoading="isLoading"
+      :typeSelected="typeSelected"
     />
 
   </div>
@@ -34,6 +38,7 @@ export default {
         movie: 'movie',
         tv: 'tv',
       },
+      typeSelected: 'all',
       contents: {
         movie: [],
         tv: []
@@ -43,18 +48,21 @@ export default {
     }
   },
   methods: {
-    collectSearch(string) {
+    collectSearch(stringToSearch) {
 
-      if (string !== '') {
-        
+      if (stringToSearch !== '') {
+
         // prima chiamata finita
         this.firstCallAxios = false
 
-        this.query = string;
+        this.query = stringToSearch;
         //chiamata Api
         this.getApi(this.types.movie);
         this.getApi(this.types.tv);
       }
+    },
+    collectType(type) {
+      this.typeSelected = type;
     },
     getApi(typeOfContent) {
 

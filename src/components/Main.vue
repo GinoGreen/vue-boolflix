@@ -17,7 +17,7 @@
 
       <section v-else class="contents">
          <!-- FILMs -->
-         <div v-if="contents.movie.length > 0" class="movies">
+         <div v-if="(contents.movie.length > 0) && (typeSelected === types.movie || typeSelected === 'all')" class="movies">
 
             <p v-if="!firstCall" class="caption-searched text-end">Risultati per <strong>"{{ stringSearched }}"</strong></p>
 
@@ -62,7 +62,9 @@
          </div>
 
          <!-- SERIE TVs -->
-         <div v-if="contents.tv.length > 0" class="tv-series">
+         <div v-if="(contents.tv.length > 0) && (typeSelected === types.tv || typeSelected === 'all')" class="tv-series">
+
+            <p v-if="!firstCall && typeSelected === types.tv" class="caption-searched text-end">Risultati per <strong>"{{ stringSearched }}"</strong></p>
 
             <div class="title">
                <div v-if="firstCall"> <!--prima chiamata axios -->
@@ -129,7 +131,8 @@ export default {
       types: Object,
       firstCall: Boolean,
       stringSearched: String,
-      isLoading: Boolean
+      isLoading: Boolean,
+      typeSelected: String
    },
    data() {
       return {
